@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: grey;
+        }
+
+        .left {
+            display: inline-block;
+
+        }
+
+        #text ,#text2 {
+            height: 450px;
+            width: 450px;
+            background-color: wheat;
+            margin-right: 50px;
+        }
+
+        img {
+            width: 50px;
+            margin-top: 0px;
+
+        }
+
+        button {
+
+            vertical-align: bottom;
+
+            box-sizing: border-box;
+        }
+
+        #lft1 {
+            position: relative;
+            top: -213px;
+            width: 70px;
+            left: -21px;
+        }
+        textarea{
+            resize: none;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <div id="container">
+
+            <div class="left">
+                <label>Translate from</label>
+                <select id="from">
+                    <option value="en">English</option>
+                    <option value="ar">Arabic</option>
+                    <option value="zh">Chinese</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="hi">Hindi</option>
+                    <option value="id">Indonesian</option>
+                    <option value="ga">Irish</option>
+                    <option value="it">Italian</option>
+                    <option value="ja">Japanese</option>
+                    <option value="ko">Korean</option>
+                    <option value="pl">Polish</option>
+                    <option value="tr">Turkish</option>
+                    <option value="vi">Veitnamese</option>
+                    <option value="auto">Auto Detect</option>
+                </select>
+
+                <div> <textarea id="text"></textarea>
+                </div>
+
+            </div>
+            <div class="left" id="lft1">
+                <button onclick="btn()"><img
+                        src="https://tse2.mm.bing.net/th?id=OIP.sW2WhCRrzPYA3WdlC84-qgHaDd&pid=Api&P=0&w=300&h=140"></button>
+            </div>
+
+
+
+            <div class="left">
+                <label>Translate into</label>
+                <select id="to">
+                    <option value="en">English</option>
+                    <option value="ar">Arabic</option>
+                    <option value="zh">Chinese</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="hi">Hindi</option>
+                    <option value="id">Indonesian</option>
+                    <option value="ga">Irish</option>
+                    <option value="it">Italian</option>
+                    <option value="ja">Japanese</option>
+                    <option value="ko">Korean</option>
+                    <option value="pl">Polish</option>
+                    <option value="tr">Turkish</option>
+                    <option value="vi">Veitnamese</option>
+                    <option value="auto">Auto Detect</option>
+                </select>
+                <div>
+                    <textarea id="text2"></textarea>
+                </div>
+            </div>
+        </div>
+
+    </center>
+</body>
+<script>
+   
+    async function btn(){
+    var select1=document.getElementById("from").value;
+    var select2=document.getElementById("to").value;
+    var input1=document.getElementById("text").value;
+   
+        try {
+        const res = await fetch("https://libretranslate.de/translate", {
+        method: "POST",
+        body: JSON.stringify({
+            q: input1,
+            source: select1,
+            target: select2
+        }),
+        headers: { "Content-Type": "application/json" }
+    });
+    let data=await res.json();
+    console.log(data);
+
+ if(data.translatedText.length==0 ||data.translatedText.length==undefined ){
+        document.getElementById("text2").value=""
+     }
+     document.getElementById("text2").value=data.translatedText
+     } catch (error) {
+     document.getElementById("text2").value=""; 
+         }
+    }
+    
+    
+
+</script>
+
+</html>
